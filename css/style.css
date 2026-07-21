@@ -1,53 +1,102 @@
 /***************************************************************
 GENERAL
 ***************************************************************/
-html {
+* {
   box-sizing: border-box;
+}
+
+html {
   font-family: sans-serif;
 }
 
 body {
   margin: 0;
+  background-color: var(--bg-1);
+  color: var(--text-1);
+}
+
+.animation-transition,
+.animation-transition>a {
+  transition: var(--animation-speed);
+}
+
+body.animation-transition {
+  transition: 0.5s;
 }
 
 /***************************************************************
 LIGHT AND DARK MODE
 ***************************************************************/
+
 :root {
-  color-scheme: light dark;
+  color-scheme: light;
+  --animation-speed: 0.3s;
   --bg-1: hsl(0, 0%, 100%);
   --bg-2: hsl(0, 0%, 93%);
   --bg-3: hsl(22, 100%, 90%);
   --text-1: hsl(0, 0%, 13%);
   --text-2: hsl(22, 100%, 50%);
   --text-3: hsl(22, 100%, 33%);
+  --shadow-1: #44444433;
+  --shadow-2: #CCCCCC;
 }
 
-[data-theme="light"] {
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    color-scheme: dark;
+    --bg-1: hsl(0, 0%, 15%);
+    --bg-2: hsl(0, 0%, 25%);
+    --bg-3: hsl(22, 100%, 38%);
+    --text-1: hsl(0, 0%, 100%);
+    --text-2: hsl(22, 100%, 50%);
+    --text-3: hsl(22, 100%, 65%);
+    --shadow-1: #44444433;
+    --shadow-2: #00000033;
+  }
+}
+
+:root[data-theme="light"] {
   color-scheme: light;
+  --bg-1: hsl(0, 0%, 100%);
+  --bg-2: hsl(0, 0%, 93%);
+  --bg-3: hsl(22, 100%, 90%);
+  --text-1: hsl(0, 0%, 13%);
+  --text-2: hsl(22, 100%, 50%);
+  --text-3: hsl(22, 100%, 25%);
+  --shadow-1: #44444433;
+  --shadow-2: #CCCCCC;
 }
 
-[data-theme="dark"] {
+:root[data-theme="dark"] {
   color-scheme: dark;
+  --bg-1: hsl(0, 0%, 15%);
+  --bg-2: hsl(0, 0%, 25%);
+  --bg-3: hsl(22, 100%, 38%);
+  --text-1: hsl(0, 0%, 100%);
+  --text-2: hsl(22, 100%, 50%);
+  --text-3: hsl(22, 100%, 66%);
+  --shadow-1: #44444433;
+  --shadow-2: #00000033;
 }
+
 
 /***************************************************************
-PAGE LAYOUT
+HEADER - LOGO, NAVIGATION & OPTIONS
 ***************************************************************/
 
-/* HEADER - LOGO, NAVIGATION & OPTIONS */
+/* HEADER (main element) */
 header {
   width: 100%;
   height: 60px;
   background-color: var(--bg-2);
-  box-shadow: 0px 5px 10px 0px #cccccc;
+  box-shadow: 0px 5px 8px 0px var(--shadow-1);
 }
 #header-content {
   width: 1200px;
   margin: 0 auto;
   display: flex;
 }
-
 
 /* LOGO */
 #logo {
@@ -56,10 +105,12 @@ header {
 }
 h1 {
   color: var(--text-2);
-  text-shadow: 2px 2px 2px #cccccc;
+  text-shadow: 2px 2px 2px var(--shadow-2);
   margin-top: 0;
   font-size: 36px;
 }
+
+/* NAVIGATION */
 nav {
   width: 800px;
   display: flex;
@@ -72,37 +123,69 @@ nav {
 .nav-item>a {
   text-decoration: none;
   color: var(--text-1);
-  transition: color 0.3s;
 }
-.nav-item>a:hover
-{
+.nav-item>a:hover {
   color: var(--text-2);
 }
+
+/* OPTIONS */
 #options {
-  width: 200px;
-  padding: 10px;
-}
-#options a {
-  text-decoration: none;
-  color: var(--text-1);
+  width: 300px;
+  padding: 8px;
+  display: flex;
+  justify-content: end;
 }
 .option {
   display: flex;
   justify-content: flex-end;
   color: var(--text-1);
-  transition: color 0.3s;
+  padding-left: 25px;
+  position: relative;
 }
 .option-icon {
-  width: 38px;
-  height: 38px;
+  width: 42px;
+  height: 42px;
+  color: var(--text-1);
 }
-.option:hover {
+.option:hover>.option-icon {
   color: var(--text-2);
 }
-.option>p {
-  margin: 10px;
+.dropdown {
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  top: 50px;
+  left: 5px;
+  background-color: var(--bg-2);
+  padding: 2px;
+  line-height: 1.5;
+  box-shadow: 0px 5px 5px 0px var(--shadow-1);
+}
+.option:hover .dropdown {
+  visibility: visible;
+  opacity: 1;
+}
+.dropdown-option {
+  color: var(--text-1);
+  text-decoration: none;
+  display: flex;
+  margin: 16px;
+}
+.dropdown-option:hover {
+  color: var(--text-2);
+}
+.dropdown-option>p {
+  margin: 0px;
+  margin-left: 12px;
+  cursor: pointer;
+}
+.dropdown-option>svg {
+  height: 28px;
 }
 
+/***************************************************************
+MAIN CONTENT
+***************************************************************/
 
 /* SECTIONS */
 .section {
